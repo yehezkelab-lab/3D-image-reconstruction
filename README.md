@@ -28,7 +28,7 @@ This project introduces a **data-redundancy dual-stream restoration and deep fea
 4. **Deep Local Feature Matching:** Replaces classical SIFT with **SuperPoint** interest points and **LightGlue** transformer-based contextual matching.
 5. **Dense 3D Reconstruction:** Lens distortion correction via COLMAP undistorter followed by **CMVS-PMVS2** patch-based multi-view stereo running efficiently on CPU.
 
-While classical SfM completely fails to register cameras on the degraded dataset, our integrated pipeline achieves **100% camera registration** and reconstructs **694,216 dense 3D points**—surpassing even the clean baseline model.
+While classical SIFT-based SfM fails on severely degraded inputs and single-model restorations cause severe structural voids due to over-smoothing, our integrated dual-stream pipeline achieves **100% camera registration** and reconstructs **694,216 dense 3D points**—surpassing even the clean baseline model and overcoming physical sensor boundaries.
 
 ---
 
@@ -98,15 +98,16 @@ Evaluated on the 28-image interior living room dataset:
 | Dataset / Configuration | Input Images | Registered Cameras | Dense Points (PMVS2) | Reconstruction Quality |
 | :--- | :---: | :---: | :---: | :--- |
 | **Original (Clean Baseline)** | 28 | 28 / 28 | **177,134** | Benchmark ground truth |
-| **Degraded Baseline** (Blur + Low-Light + Noise) | 28 | Failed / Partial | **118,647** | Incomplete, fragmented point cloud |
-| **Neural Illumination Only (DarkIR)** | 28 | 28 / 28 | **122,223** | Noise removed, but linear edges blurred |
-| **Semantic Deblur Only (InstructIR)** | 28 | Partial | **32,927** | Severe holes due to over-smoothing |
-| **Integrated Dual Pipeline (Ours)** | **56** | **56 / 56 (100%)** | **694,216** | **Continuous, dense, sharp geometry & fine textures** |
+| **Degraded Baseline** (Blur + Low-Light + Noise) | 28 | 28 / 28 | **118,647** | Incomplete, fragmented point cloud; severe voids |
+| **Neural Illumination Only (DarkIR)** | 28 | 28 / 28 | **122,223** | Shadow noise removed, but blurred linear boundaries |
+| **Semantic Deblur Only (InstructIR)** | 28 | 28 / 28 | **32,927** | Severe holes caused by neural over-smoothing |
+| **Integrated Dual Pipeline (Ours)** | **56** | **56 / 56 (100%)** | **694,216** | **Continuous, dense, sharp geometry & preserved textures** |
 
-### Key Qualitative Observations:
-- **Sharp Edges (Picture Frames):** Retains rectangular geometry and sharp framing without edge dissolution.
-- **Delicate Textures (Fabric Sofa):** Eliminates the artificial "plastic smoothing" artifact common in DL filters, preserving fabric roughness essential for photometric matching.
-- **Flat Regions (White Walls):** Deep feature learning prevents spurious feature generation from sensor noise, keeping wall surfaces clean and free of floating outlier points.
+### 🔍 Key Engineering Insights from the Final Report:
+- **Camera Registration vs. Dense Surface Completion:** While deep matching networks (SuperPoint + LightGlue) are capable of estimating camera poses even on corrupted inputs, **camera registration alone is not a guarantee of a usable 3D model**. The definitive bottleneck is dense surface expansion (PMVS2), which demands photometric consistency across multi-view patches. On degraded inputs, PMVS2 filters out inconsistent patches, causing massive voids.
+- **The "Ironing Effect" ("אפקט הגיהוץ") in Deep Learning Restoration:** Standard single-model denoisers tend to "iron out" high-frequency micro-textures (such as coarse sofa fabric), converting complex organic textures into flat, plastic-like planes. This micro-texture erasure deprives PMVS2 of photometric anchors. The dual-stream approach (DarkIR for shadow noise reduction + InstructIR for structural edges + CLAHE) preserves this vital micro-roughness, eliminating voids.
+- **Data Redundancy as a Robustness Layer:** Doubling the dataset to 56 images across complementary computational angles provides a safety net that guarantees seamless surface continuity and yields a **nearly 4x point density surge** over the original clean dataset.
+- **Preservation of Flat Regions (White Walls):** Deep feature matching prevents hallucinated artifacts from sensor thermal noise, maintaining clean, planar surfaces without floating outlier points.
 
 ---
 
