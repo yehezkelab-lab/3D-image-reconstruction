@@ -32,7 +32,66 @@ While classical SfM completely fails to register cameras on the degraded dataset
 
 ---
 
-## 📊 Benchmark Results
+## 🖼️ Visual Results: Before & After
+
+### 1. 3D Dense Point Cloud Reconstruction: Before vs. After
+The central finding of this research: when reconstructing from severely degraded conditions, standard pipelines collapse into sparse, disconnected fragments. Our integrated dual-stream pipeline recovers a complete, highly dense point cloud.
+
+| Before: Degraded Baseline Model | After: Our Integrated Pipeline |
+| :---: | :---: |
+| ![Degraded 3D](docs/images/06_dense_pointcloud_degraded.jpg) | ![Our 3D](docs/images/07_dense_pointcloud_integrated_ours.jpg) |
+| **118,647 points** — Fragmented sofa, missing wall geometry, severe voids | **694,216 points** — Continuous, dense surface, sharp corners & preserved textures |
+
+<p align="center">
+  <img src="docs/images/comparison_03_dense_3d_before_after.jpg" alt="Dense 3D Reconstruction Comparison" width="100%" />
+</p>
+
+### 3D Model Close-Up Comparison (Original vs. Degraded vs. Ours):
+| (A) Original Clean Reference | (B) Degraded Baseline | (C) Integrated Pipeline (Ours) |
+| :---: | :---: | :---: |
+| ![Original 3D](docs/images/05_dense_pointcloud_original.jpg) | ![Degraded 3D](docs/images/06_dense_pointcloud_degraded.jpg) | ![Ours 3D](docs/images/07_dense_pointcloud_integrated_ours.jpg) |
+| **177,134 Points**<br>Baseline model from clean photos | **118,647 Points**<br>Severe data loss & camera registration failures | **694,216 Points**<br>Dense, faithful recovery overcoming optical degradation |
+
+---
+
+### 2. Optical Input Degradation: Before vs. Reference
+Comparison between the physically corrupted input data (extreme low light $\alpha=0.45$, motion blur kernel 15px, thermal Gaussian noise $\sigma=20$) and the ground-truth scene.
+
+<p align="center">
+  <img src="docs/images/comparison_01_scene_before_after.jpg" alt="Input Scene Before and After" width="100%" />
+</p>
+
+#### Close-up on High-Frequency Structural Features (Picture Frames):
+Low contrast and noise confuse classical gradient detectors (SIFT/ORB), generating thousands of spurious noise features instead of true geometry.
+
+<p align="center">
+  <img src="docs/images/comparison_02_frames_closeup_before_after.jpg" alt="Frames Close-Up Before and After" width="100%" />
+</p>
+
+---
+
+### 3. Comprehensive Model Benchmark Comparison
+
+#### Sparse SfM Reconstruction Comparison
+Comparison of camera registration and sparse point triangulation across all benchmarked methods:
+- **Degraded Baseline:** Fails camera graph connectivity due to outlier matches.
+- **Single DL Models (DarkIR / InstructIR):** Partial camera recovery, but noisy or sparse.
+- **Our Integrated Pipeline:** 100% camera recovery with robust spatial convergence.
+
+<p align="center">
+  <img src="docs/images/03_sparse_model_comparison_300dpi.png" alt="Sparse Model Comparison" width="85%" />
+</p>
+
+#### Dense Multi-View Stereo (PMVS2) Comparison
+Dense patch expansion across methods. Notice the severe holes in single-model approaches (due to over-smoothing) versus the continuous dense mesh in our integrated pipeline:
+
+<p align="center">
+  <img src="docs/images/04_dense_model_comparison_300dpi.png" alt="Dense Model Comparison" width="85%" />
+</p>
+
+---
+
+## 📊 Quantitative Benchmark Results
 
 Evaluated on the 28-image interior living room dataset:
 
@@ -110,6 +169,8 @@ flowchart TD
 │   └── instructir_eval5d.yml           # InstructIR dual model options
 ├── data/
 │   └── sample_images/                  # Sample test images from dataset
+├── docs/
+│   └── images/                         # Figures and Before/After comparisons from thesis
 ├── notebooks/
 │   └── 3D_Reconstruction_Pipeline.ipynb # Complete 5-step Google Colab Notebook
 ├── scripts/
