@@ -1,0 +1,79 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# Deep Learning weights & checkpoints (download separately via instructions)
+*.pt
+*.pth
+*.ckpt
+*.onnx
+weights/
+models/
+DarkIR/
+InstructIR/
+SuperGluePretrainedNetwork/
+CMVS-PMVS/
+
+# Reconstructions, large datasets & caches
+*.h5
+*.ply
+!data/sample_images/*.ply
+*.bin
+!data/sample_images/*.bin
+*.zip
+!data/sample_images/*.zip
+colmap_ready_dual/
+extracted_images/
+fixed_images/
+fixed_images_archive/
+hloc_outputs/
+COLMAP_SPARSE_MODEL/
+pmvs_workspace/
+FINAL_DENSE/
+output/
+runs/
+
+# IDE / Editor configurations
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Operating System files
+.DS_Store
+Thumbs.db
+desktop.ini

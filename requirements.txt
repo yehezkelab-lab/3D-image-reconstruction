@@ -1,0 +1,31 @@
+# Core Deep Learning & Computer Vision
+torch>=2.0.0
+torchvision>=0.15.0
+numpy>=1.23.0
+opencv-python>=4.8.0
+pillow>=9.5.0
+pyyaml>=6.0
+scipy>=1.10.0
+matplotlib>=3.7.0
+tqdm>=4.65.0
+
+# Image Restoration Utilities
+timm>=0.9.2
+einops>=0.6.1
+ptflops>=0.7.0
+pytorch-msssim>=1.0.0
+pyiqa>=0.1.7
+
+# 3D Feature Extraction & Matching (Sparse SfM)
+kornia>=0.7.0
+pycolmap>=0.6.0
+
+# 3D Point Cloud Visualization & Processing (Optional local tool)
+open3d>=0.17.0
+
+# Submodules / Repositories for full pipeline:
+# git+https://github.com/cvg/LightGlue.git
+# git+https://github.com/cvg/Hierarchical-Localization.git
+# git+https://github.com/cidautai/DarkIR.git
+# git+https://github.com/mv-lab/InstructIR.git
+# git+https://github.com/pmoulon/CMVS-PMVS.git

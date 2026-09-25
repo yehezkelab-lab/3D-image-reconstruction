@@ -1,0 +1,14 @@
+# InstructIR Configuration for Language-Guided Image Restoration
+model:
+  in_ch: 3
+  width: 32
+  enc_blks: [2, 2, 4, 8]
+  middle_blk_num: 12
+  dec_blks: [2, 2, 2, 2]
+  textdim: 768
+
+llm:
+  model: "google/flan-t5-base"
+  model_dim: 768
+  embd_dim: 768
+  nclasses: 7

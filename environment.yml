@@ -1,0 +1,27 @@
+name: 3d_recon
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - numpy>=1.23
+  - opencv>=4.8
+  - pyyaml
+  - scipy
+  - matplotlib
+  - tqdm
+  - pip:
+      - torch>=2.0.0
+      - torchvision>=0.15.0
+      - timm>=0.9.2
+      - einops>=0.6.1
+      - ptflops>=0.7.0
+      - pytorch-msssim>=1.0.0
+      - pyiqa>=0.1.7
+      - kornia>=0.7.0
+      - pycolmap>=0.6.0
+      - git+https://github.com/cvg/LightGlue.git
+      - git+https://github.com/cvg/Hierarchical-Localization.git

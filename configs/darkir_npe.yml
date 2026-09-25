@@ -1,0 +1,20 @@
+# DarkIR Configuration for Low-Light Enhancement & Denoising
+name: DarkIR_NPE
+model_type: DarkIRModel
+scale: 1
+num_gpu: 1
+
+network_g:
+  type: DarkIR
+  inp_channels: 3
+  out_channels: 3
+  dim: 48
+  num_blocks: [4, 6, 6, 8]
+  num_refinement_blocks: 4
+  heads: [1, 2, 4, 8]
+  ffn_expansion_factor: 2.66
+  bias: False
+
+val:
+  save_img: True
+  suffix: ~
